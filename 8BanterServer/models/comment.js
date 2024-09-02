@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Comment text cannot be empty'
         },
         len: {
-          args: [1, 1000],
-          msg: 'Comment text must be between 1 and 1000 characters long'
+          args: [1, 100],
+          msg: 'Comment text must be between 1 and 100 characters long'
         }
       }
     }

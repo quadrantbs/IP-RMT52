@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Tag name cannot be empty'
         },
         len: {
-          args: [1, 50],
-          msg: 'Tag name must be between 1 and 50 characters long'
+          args: [1, 20],
+          msg: 'Tag name must be between 1 and 20 characters long'
         }
       }
     }
