@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const TemplateController = require('../controllers/TemplateController');
+const TemplateController = require("../controllers/TemplateController");
 
-router.get('/', TemplateController.getMemeTemplates);
+router.get("/", TemplateController.getMemeTemplates);
 
 module.exports = router;
