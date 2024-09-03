@@ -34,7 +34,6 @@ module.exports = {
           title: "Funny Cat",
           imageUrl:
             "https://api.memegen.link/images/grumpycat/i_hope_that_what_does_not_kill_you/tries_again.png",
-          tags: ["funny", "meme"],
           likes: 1,
           userId: 1,
           createdAt: new Date(),
@@ -44,7 +43,6 @@ module.exports = {
           title: "Bro drink too much",
           imageUrl:
             "https://api.memegen.link/images/drunk/Walk_in_a_straight_line~q/Officer,_I_can_barely_stand.png",
-          tags: ["meme"],
           likes: 1,
           userId: 2,
           createdAt: new Date(),

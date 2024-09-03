@@ -31,7 +31,7 @@ describe("Meme API", () => {
       userId: user.id,
       title: "A Funny Meme",
       imageUrl: "http://example.com/funny-meme.jpg",
-      tags: ["funny"],
+      tags: "funny",
     });
     await meme.addTag(tag);
   });
@@ -71,7 +71,7 @@ describe("Meme API", () => {
       .send({
         title: "Test Meme",
         imageUrl: "http://example.com/image.png",
-        tags: [tagId],
+        tags: "meme",
         userId,
       });
 
@@ -142,7 +142,7 @@ describe("Meme API", () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty(
       "error",
-      "User ID cannot be empty, User ID must be an integer, Title cannot be empty, Title must be between 3 and 50 characters long, Image URL cannot be empty, Must be a valid URL"
+      "Title cannot be empty, Title must be between 3 and 50 characters long, Image URL cannot be empty, Must be a valid URL"
     );
   });
 });

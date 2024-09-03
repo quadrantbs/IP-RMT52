@@ -11,7 +11,7 @@
     "username": "string",
     "email": "string",
     "password": "string",
-    "role": "string" // Optional
+    "role": "string"
   }
   ```
 - **Responses**:
@@ -96,7 +96,7 @@
         "id": "string",
         "title": "string",
         "imageUrl": "string",
-        "tags": "array of tags",
+        "Tags": "Tag",
         "userId": "string"
       }
     ]
@@ -114,7 +114,7 @@
       "id": "string",
       "title": "string",
       "imageUrl": "string",
-      "tags": "array of tags",
+      "Tags": "Tag",
       "userId": "string"
     }
     ```
@@ -138,7 +138,7 @@
         "id": "string",
         "title": "string",
         "imageUrl": "string",
-        "tags": "array of tags",
+        "MemeTag": {"Tag"},
         "userId": "string"
       }
     ]
@@ -158,8 +158,7 @@
   {
     "title": "string",
     "imageUrl": "string",
-    "tags": "array of tags",
-    "userId": "string"
+    "Tag": "Tag"
   }
   ```
 - **Responses**:
@@ -169,7 +168,6 @@
       "id": "string",
       "title": "string",
       "imageUrl": "string",
-      "tags": "array of tags",
       "userId": "string"
     }
     ```
@@ -190,7 +188,7 @@
   {
     "title": "string",
     "imageUrl": "string",
-    "tags": "array of tags"
+    "Tag": "Tag"
   }
   ```
 - **Responses**:
@@ -200,7 +198,6 @@
       "id": "string",
       "title": "string",
       "imageUrl": "string",
-      "tags": "array of tags",
       "userId": "string"
     }
     ```
@@ -400,6 +397,7 @@
 ## **Template Endpoints**
 
 ### 1. **Get Meme Templates**
+
 - **Endpoint**: `GET /templates`
 - **Responses**:
   - **200 OK**:

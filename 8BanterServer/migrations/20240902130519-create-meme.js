@@ -26,10 +26,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      tags: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: true,
-      },
       likes: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
