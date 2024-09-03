@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const authenticate = require("./middlewares/authenticate");
 const errorHandler = require("./middlewares/errorHandler");
 
 // Middleware
@@ -43,7 +42,5 @@ app.get("/", (req, res) => {
 });
 
 app.use(errorHandler);
-
-
 
 module.exports = app;
