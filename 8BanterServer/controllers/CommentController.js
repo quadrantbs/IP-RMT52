@@ -4,8 +4,8 @@ class CommentController {
   static async addComment(req, res, next) {
     try {
       const { text } = req.body;
-      const { memeId } = req.params;
-      const userId = req.user.id; 
+      const { id: memeId } = req.params;
+      const userId = req.user.id;
 
       const meme = await Meme.findByPk(memeId);
       if (!meme) {
@@ -15,7 +15,7 @@ class CommentController {
       const comment = await Comment.create({
         text,
         memeId,
-        userId
+        userId,
       });
 
       res.status(201).json(comment);
@@ -26,8 +26,7 @@ class CommentController {
 
   static async getCommentsByMemeId(req, res, next) {
     try {
-      const { memeId } = req.query;
-
+      const { id: memeId } = req.params;
       const comments = await Comment.findAll({
         where: { memeId },
         include: [{ model: User, attributes: ["id", "username"] }],

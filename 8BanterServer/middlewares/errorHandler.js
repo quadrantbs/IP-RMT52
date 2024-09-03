@@ -1,4 +1,3 @@
-
 module.exports = (err, req, res, next) => {
   let statusCode = 500;
   let message = "Internal Server Error";
@@ -12,19 +11,22 @@ module.exports = (err, req, res, next) => {
     message = err.errors.map((e) => e.message).join(", ");
   } else if (err.name === "NotFound") {
     statusCode = 404;
-    message = "Resource not found";
+    message = err.message || "Resource not found";
   } else if (err.name === "Unauthorized") {
     statusCode = 401;
-    message = "Unauthorized access";
+    message = err.message;
   } else if (err.name === "Forbidden") {
     statusCode = 403;
-    message = "Forbidden";
+    message = err.message || "Forbidden";
   } else if (err.name === "BadRequest") {
     statusCode = 400;
-    message = "Bad Request";
+    message = err.message;
   } else if (err.name === "JsonWebTokenError") {
     statusCode = 401;
     message = "Invalid token";
+  } else if (err.name === "Conflict") {
+    statusCode = 409;
+    message = err.message || "Conflict occurred";
   }
 
   // Log the error for debugging

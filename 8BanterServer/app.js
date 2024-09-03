@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,10 +24,10 @@ const templateRoutes = require("./routes/templateRoutes");
 // Use routers
 app.use("/users", userRoutes);
 app.use("/memes", memeRoutes);
-app.use("/memes/:id/comments", commentRoutes);
-app.use("/memes/:id/likes", likeRoutes);
 app.use("/tags", tagRoutes);
 app.use("/templates", templateRoutes);
+app.use("/memes/:id/comments", commentRoutes);
+app.use("/memes/:id/likes", likeRoutes);
 
 // Get all routes
 app.get("/", (req, res) => {

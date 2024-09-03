@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const CommentController = require("../controllers/CommentController");
 const authenticate = require("../middlewares/authenticate");
 const { authorizeComment } = require("../middlewares/authorization");

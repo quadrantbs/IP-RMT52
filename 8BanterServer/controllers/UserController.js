@@ -18,16 +18,23 @@ class UserController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
+      if (!email || !password) {
+        throw {
+          name: "BadRequest",
+          message: "Email and password are required",
+        };
+      }
       const user = await User.findOne({ where: { email } });
 
       if (!user || !bcrypt.compareSync(password, user.password)) {
-        throw { name: "Unauthorized" };
+        throw { name: "Unauthorized", message: "Invalid email/password" };
       }
 
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, role: user.role },
         process.env.JWT_SECRET
       );
+
       res.status(200).json({ token });
     } catch (err) {
       next(err);

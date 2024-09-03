@@ -3,9 +3,9 @@ const { Like, Meme, User } = require("../models");
 class LikeController {
   static async addLike(req, res, next) {
     try {
-      const { memeId } = req.body;
+      const { id: memeId } = req.params;
       const userId = req.user.id;
-
+      console.log(req.params);
       const meme = await Meme.findByPk(memeId);
       if (!meme) {
         throw { name: "NotFound", message: "Meme not found" };
@@ -27,7 +27,7 @@ class LikeController {
 
   static async removeLike(req, res, next) {
     try {
-      const { memeId } = req.body;
+      const { id: memeId } = req.params;
       const userId = req.user.id;
 
       const like = await Like.findOne({
