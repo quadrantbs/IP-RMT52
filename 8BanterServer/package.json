@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon bin/www",
+    "test": "jest --detectOpenHandles --verbose --forceExit",
+    "test:comment": "jest __test__/comment.test.js --detectOpenHandles --verbose --forceExit",
+    "test:like": "jest __test__/like.test.js --detectOpenHandles --verbose --forceExit",
+    "test:meme": "jest __test__/meme.test.js --detectOpenHandles --verbose --forceExit",
+    "test:tag": "jest __test__/tag.test.js --detectOpenHandles --verbose --forceExit",
+    "test:template": "jest __test__/template.test.js --detectOpenHandles --verbose --forceExit",
+    "test:user": "jest __test__/user.test.js --detectOpenHandles --verbose --forceExit"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +27,9 @@
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }

@@ -4,6 +4,10 @@ class CommentController {
   static async addComment(req, res, next) {
     try {
       const { text } = req.body;
+
+      if (!text) {
+        throw { name: "BadRequest", message: "Text cannot be empty" };
+      }
       const { id: memeId } = req.params;
       const userId = req.user.id;
 

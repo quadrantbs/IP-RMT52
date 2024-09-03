@@ -2,7 +2,6 @@ module.exports = (err, req, res, next) => {
   let statusCode = 500;
   let message = "Internal Server Error";
 
-  // Handle specific Sequelize errors
   if (
     err.name === "SequelizeValidationError" ||
     err.name === "SequelizeUniqueConstraintError"
@@ -29,9 +28,7 @@ module.exports = (err, req, res, next) => {
     message = err.message || "Conflict occurred";
   }
 
-  // Log the error for debugging
   console.error(err);
 
-  // Send the error response
   res.status(statusCode).json({ error: message });
 };
