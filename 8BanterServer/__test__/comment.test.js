@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../app"); // Path ke file app.js
+const app = require("../app");
 const { User, Meme, Comment } = require("../models");
 
 describe("Comment API", () => {
@@ -8,7 +8,6 @@ describe("Comment API", () => {
   let userId;
 
   beforeAll(async () => {
-    // Setup user, meme, dan token
     const user = await User.create({
       username: "testuser",
       email: "testuser@example.com",
@@ -24,7 +23,6 @@ describe("Comment API", () => {
     });
     memeId = meme.id;
 
-    // Login untuk mendapatkan token
     const response = await request(app).post("/users/login").send({
       email: "testuser@example.com",
       password: "password123",
@@ -34,7 +32,6 @@ describe("Comment API", () => {
   });
 
   afterAll(async () => {
-    // Bersihkan data setelah test selesai
     await Comment.destroy({
       where: {},
       truncate: true,
@@ -101,10 +98,8 @@ describe("Comment API", () => {
     );
   });
 
-  // Error scenarios
-
   test("POST /memes/:id/comments - should return 404 if meme does not exist", async () => {
-    const invalidMemeId = 9999; 
+    const invalidMemeId = 9999;
     const response = await request(app)
       .post(`/memes/${invalidMemeId}/comments`)
       .set("Authorization", `Bearer ${token}`)
@@ -117,7 +112,7 @@ describe("Comment API", () => {
   });
 
   test("DELETE /memes/:id/comments/:commentId - should return 404 if comment does not exist", async () => {
-    const invalidCommentId = 9999; 
+    const invalidCommentId = 9999;
     const response = await request(app)
       .delete(`/memes/${memeId}/comments/${invalidCommentId}`)
       .set("Authorization", `Bearer ${token}`);
@@ -127,23 +122,21 @@ describe("Comment API", () => {
   });
 
   test("POST /memes/:id/comments - should return 401 if no token provided", async () => {
-    const response = await request(app)
-      .post(`/memes/${memeId}/comments`)
-      .send({
-        text: "This comment should fail due to no token",
-      });
+    const response = await request(app).post(`/memes/${memeId}/comments`).send({
+      text: "This comment should fail due to no token",
+    });
 
     expect(response.status).toBe(401);
-    expect(response.body).toHaveProperty("error", "No token provided");
+    expect(response.body).toHaveProperty("error", "Invalid Token");
   });
 
   test("POST /memes/:id/comments - should return 400 if text is missing", async () => {
     const response = await request(app)
       .post(`/memes/${memeId}/comments`)
       .set("Authorization", `Bearer ${token}`)
-      .send({}); 
+      .send({});
 
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty("error", "Text cannot be empty");
+    expect(response.body).toHaveProperty("error", "Comment cannot be empty");
   });
 });

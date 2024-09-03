@@ -4,7 +4,7 @@ const authenticate = (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
-      throw { name: "Unauthorized", message: "No token provided" };
+      throw { name: "Unauthorized", message: "Invalid Token" };
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

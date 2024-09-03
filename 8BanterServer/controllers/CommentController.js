@@ -6,7 +6,7 @@ class CommentController {
       const { text } = req.body;
 
       if (!text) {
-        throw { name: "BadRequest", message: "Text cannot be empty" };
+        throw { name: "BadRequest", message: "Comment cannot be empty" };
       }
       const { id: memeId } = req.params;
       const userId = req.user.id;

@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../app"); // Path ke file app.js
+const app = require("../app");
 const { User, Meme, Like } = require("../models");
 
 describe("Like API", () => {
@@ -8,7 +8,6 @@ describe("Like API", () => {
   let userId;
 
   beforeAll(async () => {
-    // Setup user, meme, dan token
     const user = await User.create({
       username: "testuser",
       email: "testuser@example.com",
@@ -24,7 +23,6 @@ describe("Like API", () => {
     });
     memeId = meme.id;
 
-    // Login untuk mendapatkan token
     const response = await request(app).post("/users/login").send({
       email: "testuser@example.com",
       password: "password123",
@@ -34,7 +32,6 @@ describe("Like API", () => {
   });
 
   afterAll(async () => {
-    // Bersihkan data setelah test selesai
     await Like.destroy({
       where: {},
       truncate: true,
@@ -73,7 +70,10 @@ describe("Like API", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(409);
-    expect(response.body).toHaveProperty("error", "You already liked this meme");
+    expect(response.body).toHaveProperty(
+      "error",
+      "You already liked this meme"
+    );
   });
 
   test("DELETE /memes/:id/likes - should remove a like", async () => {
@@ -84,7 +84,10 @@ describe("Like API", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("message", "Like removed successfully");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Like removed successfully"
+    );
   });
 
   test("DELETE /memes/:id/likes - should return error if like not found", async () => {

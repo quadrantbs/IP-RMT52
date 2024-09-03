@@ -12,9 +12,6 @@ const authorize =
       }
 
       const resource = await model.findByPk(id);
-      if (!resource) {
-        throw { name: "NotFound", message: `${model.name} not found` };
-      }
 
       if (resource.userId !== userId) {
         throw {

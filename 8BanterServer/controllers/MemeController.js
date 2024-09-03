@@ -30,7 +30,6 @@ class MemeController {
         where: { name: tag },
         include: {
           model: Meme,
-          as: "memes",
           through: { attributes: [] },
         },
       });
@@ -39,7 +38,7 @@ class MemeController {
         return res.status(404).json({ message: "Tag not found" });
       }
 
-      const memes = foundTag.memes;
+      const memes = foundTag.Memes;
 
       res.status(200).json(memes);
     } catch (error) {

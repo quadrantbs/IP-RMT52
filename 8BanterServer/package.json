@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon bin/www",
-    "test": "jest --detectOpenHandles --verbose --forceExit",
+    "test": "jest --detectOpenHandles --verbose --forceExit --coverage",
     "test:comment": "jest __test__/comment.test.js --detectOpenHandles --verbose --forceExit",
     "test:like": "jest __test__/like.test.js --detectOpenHandles --verbose --forceExit",
     "test:meme": "jest __test__/meme.test.js --detectOpenHandles --verbose --forceExit",
@@ -29,6 +29,7 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^2.0.0",
     "jest": "^29.7.0",
     "supertest": "^7.0.0"
   }
