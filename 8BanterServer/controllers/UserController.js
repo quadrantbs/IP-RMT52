@@ -30,12 +30,14 @@ class UserController {
         throw { name: "Unauthorized", message: "Invalid email/password" };
       }
 
+      const username = user.username
+
       const token = jwt.sign(
         { id: user.id, role: user.role },
         process.env.JWT_SECRET
       );
 
-      res.status(200).json({ token });
+      res.status(200).json({ token, username });
     } catch (err) {
       next(err);
     }

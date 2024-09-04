@@ -41,6 +41,23 @@ app.get("/", (req, res) => {
   });
 });
 
+app.post("/auth/google", async (req, res) => {
+  const { id_token } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: id_token,
+      audience:
+        "177930775716-007cdki2fsr1jvbeai7jec95tal4en3h.apps.googleusercontent.com",
+    });
+    const payload = ticket.getPayload();
+    console.log(payload);
+    res.status(200).json({ message: "Google login successful" });
+  } catch (error) {
+    res.status(400).json({ error: "Invalid token" });
+  }
+});
+
 app.use(errorHandler);
 
 module.exports = app;

@@ -1,12 +1,8 @@
-import { useState } from 'react';
-import AppRoutes from './AppRoutes';
+import { RouterProvider } from "react-router-dom";
+import { AppRoutes } from "./AppRoutes";
 
 function App() {
-  return (
-    <>
-      <AppRoutes />
-    </>
-  );
+  return <RouterProvider router={AppRoutes} />;
 }
 
 export default App;
