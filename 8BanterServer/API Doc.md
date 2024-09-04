@@ -359,6 +359,25 @@
     }
     ```
 
+### 3. **Check Like Status**
+
+- **Endpoint**: `GET /memes/:id/likes/status`
+- **Parameters**:
+  - **id**: Meme ID
+- **Responses**:
+  - **200 OK**:
+    ```json
+    {
+      "isLiked": true
+    }
+    ```
+  - **404 Not Found**:
+    ```json
+    {
+      "error": "Meme not found"
+    }
+    ```
+
 ## **Tag Endpoints**
 
 ### 1. **Get All Tags**

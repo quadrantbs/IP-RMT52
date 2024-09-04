@@ -7,4 +7,6 @@ router.post("/", authenticate, LikeController.addLike);
 
 router.delete("/", authenticate, LikeController.removeLike);
 
+router.get("/status", authenticate, LikeController.checkLikeStatus);
+
 module.exports = router;

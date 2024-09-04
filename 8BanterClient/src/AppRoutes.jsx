@@ -1,6 +1,6 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-// import MainLayout from "./layout/MainLayout";
-// import AuthLayout from "./layout/AuthLayout";
+import MainLayout from "./layout/MainLayout";
+import AuthLayout from "./layout/AuthLayout";
 import PublicLayout from "./layout/PublicLayout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -9,13 +9,13 @@ import RegisterPage from "./pages/RegisterPage";
 import AllMemesPage from "./pages/AllMemesPage";
 // import MemeDetailPage from "./pages/MemeDetailPage";
 // import MemeTagPage from "./pages/MemeTagPage";
-// import CreateMemePage from "./pages/CreateMemePage";
-// import UpdateMemePage from "./pages/UpdateMemePage";
+import CreateMemePage from "./pages/CreateMemePage";
+import UpdateMemePage from "./pages/UpdateMemePage";
 // import NotFoundPage from "./pages/NotFoundPage";
 // import AllTagsPage from "./pages/AllTagsPage";
 // import CreateTagPage from "./pages/CreateTagPage";
-// import MemeTemplatesPage from "./pages/MemeTemplatesPage";
-// import NotImplementedPage from "./pages/NotImplementedPage";
+import MemeTemplatesPage from "./pages/MemeTemplatesPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const checkAuth = () => {
   const token = localStorage.getItem("8Banter_access_token");
@@ -50,7 +50,7 @@ export const AppRoutes = createBrowserRouter([
   },
   {
     path: "/",
-    // element: <AuthLayout />,
+    element: <AuthLayout />,
     loader: checkNoAuth,
     children: [
       {
@@ -63,63 +63,63 @@ export const AppRoutes = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/",
-  //   element: <MainLayout />,
-  //   loader: checkAuth,
-  //   children: [
-  //     {
-  //       path: "/users",
-  //       element: <AllUsersPage />,
-  //     },
-  //     {
-  //       path: "/memes/:id",
-  //       element: <MemeDetailPage />,
-  //     },
-  //     {
-  //       path: "/memes/tag/:tag",
-  //       element: <MemeTagPage />,
-  //     },
-  //     {
-  //       path: "/memes/create",
-  //       element: <CreateMemePage />,
-  //     },
-  //     {
-  //       path: "/memes/:id/update",
-  //       element: <UpdateMemePage />,
-  //     },
-  //     {
-  //       path: "/tags",
-  //       element: <AllTagsPage />,
-  //     },
-  //     {
-  //       path: "/tags/create",
-  //       element: <CreateTagPage />,
-  //     },
-  //     {
-  //       path: "/templates",
-  //       element: <MemeTemplatesPage />,
-  //     },
-  //     {
-  //       path: "/memes/:id/comments",
-  //       element: <NotImplementedPage />,
-  //     },
-  //     {
-  //       path: "/memes/:id/comments/:commentId",
-  //       element: <NotImplementedPage />,
-  //     },
-  //     {
-  //       path: "/memes/:id/likes",
-  //       element: <NotImplementedPage />,
-  //     },
-  //     {
-  //       path: "/memes/:id/likes/remove",
-  //       element: <NotImplementedPage />,
-  //     },
-  //   ],
-  // },
-  // {
-  // path: "*",
-  // element: <NotFoundPage />,
-  // },
+  {
+    path: "/",
+    element: <MainLayout />,
+    loader: checkAuth,
+    children: [
+      //     {
+      //       path: "/users",
+      //       element: <AllUsersPage />,
+      //     },
+      //     {
+      //       path: "/memes/:id",
+      //       element: <MemeDetailPage />,
+      //     },
+      //     {
+      //       path: "/memes/tag/:tag",
+      //       element: <MemeTagPage />,
+      //     },
+      {
+        path: "/memes/create",
+        element: <CreateMemePage />,
+      },
+      {
+        path: "/memes/:id/edit",
+        element: <UpdateMemePage />,
+      },
+      //     {
+      //       path: "/tags",
+      //       element: <AllTagsPage />,
+      //     },
+      //     {
+      //       path: "/tags/create",
+      //       element: <CreateTagPage />,
+      //     },
+      {
+        path: "/templates",
+        element: <MemeTemplatesPage />,
+      },
+      //     {
+      //       path: "/memes/:id/comments",
+      //       element: <NotImplementedPage />,
+      //     },
+      //     {
+      //       path: "/memes/:id/comments/:commentId",
+      //       element: <NotImplementedPage />,
+      //     },
+      //     {
+      //       path: "/memes/:id/likes",
+      //       element: <NotImplementedPage />,
+      //     },
+      //     {
+      //       path: "/memes/:id/likes/remove",
+      //       element: <NotImplementedPage />,
+      //     },
+    ],
+  },
+  {
+  path: "*",
+  element: <NotFoundPage />,
+  },
 ]);

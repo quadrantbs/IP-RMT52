@@ -14,6 +14,10 @@ function MemeTemplatesPage() {
   }, []);
 
   useEffect(() => {
+    setPage(0);
+  }, [searchTerm]);
+
+  useEffect(() => {
     paginateTemplates();
   }, [allTemplates, page, searchTerm]);
 
@@ -83,7 +87,7 @@ function MemeTemplatesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {templates.map((template) => (
           <div
-            key={template.id}
+            key={`${template.id}-${Math.random()}`}
             className="relative bg-white shadow-md rounded-lg overflow-hidden text-center"
           >
             <img
@@ -124,23 +128,38 @@ function MemeTemplatesPage() {
           Previous
         </button>
 
-        {Array.from(
-          { length: endPage - adjustedStartPage },
-          (_, i) => adjustedStartPage + i
-        ).map((pageNumber) => (
-          <button
-            key={pageNumber}
-            onClick={() => goToPage(pageNumber)}
-            className={`px-4 py-2 rounded-md ${
-              page === pageNumber
-                ? "bg-blue-700 text-white"
-                : "bg-blue-500 text-white"
-            }`}
-          >
-            {pageNumber + 1}
-          </button>
-        ))}
-
+        {totalPages <= maxPagesToShow
+          ? Array.from({ length: totalPages }, (_, i) => i).map(
+              (pageNumber) => (
+                <button
+                  key={pageNumber}
+                  onClick={() => goToPage(pageNumber)}
+                  className={`px-4 py-2 rounded-md ${
+                    page === pageNumber
+                      ? "bg-blue-700 text-white"
+                      : "bg-blue-500 text-white"
+                  }`}
+                >
+                  {pageNumber + 1}
+                </button>
+              )
+            )
+          : Array.from(
+              { length: endPage - adjustedStartPage },
+              (_, i) => adjustedStartPage + i
+            ).map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => goToPage(pageNumber)}
+                className={`px-4 py-2 rounded-md ${
+                  page === pageNumber
+                    ? "bg-blue-700 text-white"
+                    : "bg-blue-500 text-white"
+                }`}
+              >
+                {pageNumber + 1}
+              </button>
+            ))}
         <button
           onClick={nextPage}
           disabled={page === lastPage}

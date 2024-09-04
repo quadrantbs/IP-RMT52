@@ -1,4 +1,4 @@
-const { Meme, Tag } = require("../models");
+const { Meme, Tag, Like } = require("../models");
 
 class MemeController {
   static async getAllMemes(req, res, next) {
@@ -130,6 +130,7 @@ class MemeController {
       if (!meme) {
         throw { name: "NotFound", message: "Meme not found" };
       }
+      await Like.destroy({ where: { memeId: id } });
 
       await meme.destroy();
 
