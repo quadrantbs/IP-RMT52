@@ -1,0 +1,38 @@
+{
+  "name": "8banterserver",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon bin/www",
+    "test": "jest --detectOpenHandles --verbose --forceExit --coverage",
+    "test:comment": "jest __test__/comment.test.js --detectOpenHandles --verbose --forceExit",
+    "test:like": "jest __test__/like.test.js --detectOpenHandles --verbose --forceExit",
+    "test:meme": "jest __test__/meme.test.js --detectOpenHandles --verbose --forceExit",
+    "test:tag": "jest __test__/tag.test.js --detectOpenHandles --verbose --forceExit",
+    "test:template": "jest __test__/template.test.js --detectOpenHandles --verbose --forceExit",
+    "test:user": "jest __test__/user.test.js --detectOpenHandles --verbose --forceExit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "google-auth-library": "^9.14.1",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.57.3",
+    "pg": "^8.12.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^2.0.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
