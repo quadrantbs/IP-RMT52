@@ -1,77 +1,56 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import serverApi from "../helpers/baseUrl";
+import { useDispatch, useSelector } from "react-redux";
 import { FaHeart, FaRegHeart, FaComments, FaEdit } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import {
+  FaFacebookSquare,
+  FaTwitterSquare,
+  FaWhatsappSquare,
+} from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
+import { fetchMemes, toggleLike } from "../features/memes/memeSlice";
+import Chatbox from "../components/Chatbox";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
 
 const AllMemesPage = () => {
-  const [memes, setMemes] = useState([]);
+  const dispatch = useDispatch();
+  const { memes, status, error } = useSelector((state) => state.memes);
   const access_token = localStorage.getItem("8Banter_access_token");
-
-  const fetchMemes = async () => {
-    try {
-      const response = await serverApi.get("/memes");
-      const memesWithLikes = await Promise.all(
-        response.data.map(async (meme) => {
-          const likeResponse = await serverApi.get(
-            `/memes/${meme.id}/likes/status`,
-            {
-              headers: {
-                Authorization: `Bearer ${access_token}`,
-              },
-            }
-          );
-          return { ...meme, isLiked: likeResponse.data.isLiked };
-        })
-      );
-      setMemes(memesWithLikes);
-    } catch (error) {
-      toast.error("Failed to fetch memes - " + error.response.data.error);
-    }
-  };
+  const userId = access_token ? jwtDecode(access_token).id : null;
 
   useEffect(() => {
-    fetchMemes();
-  }, []);
+    if (access_token) {
+      dispatch(fetchMemes(access_token));
+    }
+  }, [dispatch, access_token]);
 
-  const handleLikeToggle = async (memeId, isLiked) => {
-    try {
-      if (isLiked) {
-        await serverApi.delete(`/memes/${memeId}/likes`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
-      } else {
-        await serverApi.post(
-          `/memes/${memeId}/likes`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
-          }
-        );
-      }
-
-      await fetchMemes();
-    } catch (error) {
-      if (error.response.data.error === "Invalid Token") {
-        toast.error("Invalid Token - You need to login first!");
-      } else {
-        toast.error("Failed To Like/Dislike!");
-      }
-      console.log(error.response);
+  const handleLikeToggle = (memeId, isLiked) => {
+    if (access_token) {
+      dispatch(toggleLike({ memeId, isLiked, access_token }));
     }
   };
+
+  if (status === "loading") {
+    return <div>Loading memes...</div>;
+  }
+
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="container mx-auto p-4">
       <ToastContainer />
+      <Chatbox userId={userId} />
       <div className="space-y-6">
         {memes.map((meme) => {
-          const isLiked = meme.isLiked;
+          const shareUrl = window.location.origin + `/memes/${meme.id}`; // URL untuk share
           return (
             <div
               key={meme.id}
@@ -106,15 +85,29 @@ const AllMemesPage = () => {
                     <FaComments className="mr-2" />
                     Comments
                   </Link>
-                  <Link
-                    to={`/memes/${meme.id}/edit`}
-                    className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full flex items-center hover:bg-blue-300"
-                  >
-                    <FaEdit className="mr-2" />
-                    Edit
-                  </Link>
+                  {userId === meme.userId && (
+                    <Link
+                      to={`/memes/${meme.id}/edit`}
+                      className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full flex items-center hover:bg-blue-300"
+                    >
+                      <FaEdit className="mr-2" />
+                      Edit
+                    </Link>
+                  )}
                 </div>
               </div>
+              <div className="flex space-x-4 mt-2">
+                <FacebookShareButton url={shareUrl} className="hover:scale-110">
+                  <FaFacebookSquare className="text-blue-600" size={28} />
+                </FacebookShareButton>
+                <TwitterShareButton url={shareUrl} className="hover:scale-110">
+                  <FaTwitterSquare className="text-blue-400" size={28} />
+                </TwitterShareButton>
+                <WhatsappShareButton url={shareUrl} className="hover:scale-110">
+                  <FaWhatsappSquare className="text-green-500" size={28} />
+                </WhatsappShareButton>
+              </div>
+
               <div className="mt-2">
                 {meme.Tags.map((tag) => (
                   <Link

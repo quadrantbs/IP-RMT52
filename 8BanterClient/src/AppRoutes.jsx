@@ -100,26 +100,10 @@ export const AppRoutes = createBrowserRouter([
         path: "/templates",
         element: <MemeTemplatesPage />,
       },
-      //     {
-      //       path: "/memes/:id/comments",
-      //       element: <NotImplementedPage />,
-      //     },
-      //     {
-      //       path: "/memes/:id/comments/:commentId",
-      //       element: <NotImplementedPage />,
-      //     },
-      //     {
-      //       path: "/memes/:id/likes",
-      //       element: <NotImplementedPage />,
-      //     },
-      //     {
-      //       path: "/memes/:id/likes/remove",
-      //       element: <NotImplementedPage />,
-      //     },
     ],
   },
   {
-  path: "*",
-  element: <NotFoundPage />,
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);

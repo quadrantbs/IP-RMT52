@@ -27,16 +27,19 @@ const LoginPage = () => {
     }
   };
 
-  const handleGoogleLoginSuccess = async (response) => {
+  const handleGoogleLoginSuccess = async (googleResponse) => {
     try {
-      const { tokenId } = response;
-      const res = await serverApi.post("/auth/google", { id_token: tokenId });
-      localStorage.setItem("8Banter_access_token", res.data.token);
+      const { credential } = googleResponse;
+      const response = await serverApi.post("/auth/google", {
+        id_token: credential,
+      });
+      localStorage.setItem("8Banter_access_token", response.data.token);
+      localStorage.setItem("8Banter_username", response.data.username);
 
       toast.success("Google login successful!");
       navigate("/memes");
     } catch (error) {
-      toast.error("Google login failed");
+      toast.error("Google login failed - " + error?.response?.data.error);
       console.log(error);
     }
   };

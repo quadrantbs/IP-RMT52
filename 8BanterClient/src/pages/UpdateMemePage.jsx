@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import serverApi from "../helpers/baseUrl";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Chatbox from "../components/Chatbox";
+import { jwtDecode } from "jwt-decode";
 
 const UpdateMemePage = () => {
   const { id } = useParams();
@@ -12,6 +14,7 @@ const UpdateMemePage = () => {
   const [tags, setTags] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const access_token = localStorage.getItem("8Banter_access_token");
+  const userId = access_token ? jwtDecode(access_token).id : null;
 
   useEffect(() => {
     const fetchMeme = async () => {
@@ -25,7 +28,7 @@ const UpdateMemePage = () => {
         const { title, Tags, imageUrl } = response.data;
         setMeme(response.data);
         setTitle(title || "");
-        setTags(Tags.map(tag => tag.name).join(", "));
+        setTags(Tags.map((tag) => tag.name).join(", "));
         setImageUrl(imageUrl || "");
       } catch (error) {
         toast.error("Failed to fetch meme - " + error.response.data.error);
@@ -34,6 +37,11 @@ const UpdateMemePage = () => {
 
     fetchMeme();
   }, [id, access_token]);
+
+useEffect(() => {
+  setImageUrl(imageUrl.replace(/\s+/g, "_"));
+}, [imageUrl])
+
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -79,6 +87,7 @@ const UpdateMemePage = () => {
   return (
     <div className="container mx-auto p-4">
       <ToastContainer />
+      <Chatbox userId={userId} />
       <h1 className="text-2xl font-bold mb-4 text-red-600">Update Meme</h1>
       <form onSubmit={handleUpdate}>
         <div className="mb-4">

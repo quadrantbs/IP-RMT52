@@ -4,26 +4,41 @@ import serverApi from "../helpers/baseUrl";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Chatbox from "../components/Chatbox";
+import { jwtDecode } from "jwt-decode";
 
 const CreateMemePage = () => {
   const [templates, setTemplates] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [title, setTitle] = useState("");
-  const [topText, setTopText] = useState("");
-  const [bottomText, setBottomText] = useState("");
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedTags, setSelectedTags] = useState([]);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [textInputs, setTextInputs] = useState([]);
   const navigate = useNavigate();
   const access_token = localStorage.getItem("8Banter_access_token");
+  const userId = access_token ? jwtDecode(access_token).id : null;
 
   const fetchTemplates = async () => {
     try {
       const response = await axios.get("https://api.memegen.link/templates");
       const allTemplates = response.data;
+      if (allTemplates.length > 0) {
+        const firstTemplate = allTemplates[0].id;
+        const numOfLines = allTemplates[0].lines;
+
+        setSelectedTemplate(firstTemplate);
+        setTextInputs(
+          Array.from(
+            { length: numOfLines },
+            (_, i) => `Text ${i + 1} goes here`
+          )
+        );
+      }
+
       setTemplates(allTemplates);
       setLoading(false);
     } catch (error) {
@@ -42,29 +57,40 @@ const CreateMemePage = () => {
   };
 
   useEffect(() => {
+    if (selectedTemplate && textInputs.length > 0) {
+      setPreviewUrl(
+        `https://api.memegen.link/images/${selectedTemplate}/${textInputs
+          .map((text) => text || "_")
+          .join("/")}.png`
+      );
+    }
+  }, [textInputs, selectedTemplate]);
+
+  useEffect(() => {
     fetchTemplates();
     fetchTags();
   }, []);
 
   const handleTemplateSelect = (templateKey) => {
+    const selectedTemplate = templates.find(
+      (template) => template.id === templateKey
+    );
+    const numOfLines = selectedTemplate.lines;
+
     setSelectedTemplate(templateKey);
-    setPreviewUrl(
-      `https://api.memegen.link/images/${templateKey}/${topText || "_"}/${
-        bottomText || "_"
-      }.png`
+    setTextInputs(
+      Array.from({ length: numOfLines }, (_, i) => `Text ${i + 1} goes here`)
     );
   };
-  useEffect(() => {
-    if (selectedTemplate) {
-      const url = `https://api.memegen.link/images/${selectedTemplate}/${
-        topText || "_"
-      }/${bottomText || "_"}.png`;
-      setPreviewUrl(url);
-    }
-  }, [topText, bottomText, selectedTemplate]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  const handleTextChange = (e, index) => {
+    const updatedTexts = [...textInputs];
+    updatedTexts[index] = e.target.value;
+    setTextInputs(updatedTexts);
   };
 
   const handleTagSelect = (tag) => {
@@ -76,8 +102,6 @@ const CreateMemePage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log([...selectedTags, newTag].filter(Boolean).join(", "));
-      console.log(previewUrl.replace(/ /g, "_"));
       const response = await serverApi.post(
         "/memes",
         {
@@ -106,6 +130,7 @@ const CreateMemePage = () => {
   return (
     <div className="container mx-auto p-4">
       <ToastContainer />
+      <Chatbox userId={userId} />
       <h1 className="text-2xl font-bold mb-4 text-red-600">Create a Meme</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -121,31 +146,31 @@ const CreateMemePage = () => {
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
+        {textInputs.map((text, index) => (
+          <div key={index} className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Text {index + 1}
+            </label>
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => handleTextChange(e, index)}
+              className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+        ))}
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Top Text
+            Meme Preview
           </label>
-          <input
-            type="text"
-            value={topText}
-            onChange={(e) => {
-              setTopText(e.target.value);
-            }}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Bottom Text
-          </label>
-          <input
-            type="text"
-            value={bottomText}
-            onChange={(e) => {
-              setBottomText(e.target.value);
-            }}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
+          {selectedTemplate && (
+            <img
+              src={previewUrl}
+              alt="Meme Preview"
+              className="w-80 h-auto object-contain rounded-lg"
+            />
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -166,13 +191,13 @@ const CreateMemePage = () => {
             filteredTemplates.map((template) => (
               <div
                 key={`${template.id}-${Math.random()}`}
-                className="flex-shrink-0 p-2"
+                className="flex-shrink-0 p-2 cursor-pointer"
+                onClick={() => handleTemplateSelect(template.id)}
               >
                 <div className="border rounded shadow-lg p-2 flex flex-col items-center">
                   <img
                     src={template.blank}
                     alt={template.name}
-                    onClick={() => handleTemplateSelect(template.id)}
                     className={`cursor-pointer ${
                       selectedTemplate === template.id
                         ? "border-4 border-red-600"
@@ -216,18 +241,7 @@ const CreateMemePage = () => {
             placeholder="Add a new tag"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Meme Preview
-          </label>
-          {selectedTemplate && (
-            <img
-              src={previewUrl}
-              alt="Meme Preview"
-              className="w-80 h-auto object-contain rounded-lg"
-            />
-          )}
-        </div>
+
         <button
           type="submit"
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

@@ -6,7 +6,7 @@ function MemeTemplatesPage() {
   const [templates, setTemplates] = useState([]);
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const templatesPerPage = 9;
+  const templatesPerPage = 8;
   const maxPagesToShow = 5;
 
   useEffect(() => {
@@ -91,13 +91,11 @@ function MemeTemplatesPage() {
             className="relative bg-white shadow-md rounded-lg overflow-hidden text-center"
           >
             <img
-              src={template.blank}
+              src={template.example.url}
               alt={template.name}
-              className="w-full h-48 object-cover"
+              className="w-full h-48 object-contain rounded-lg"
             />
-            <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100 flex items-center justify-center p-4 text-white text-lg">
-              <p className="whitespace-normal text-center">{template.name}</p>
-            </div>
+            <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 "></div>
             <p className="p-4 text-gray-700 text-ellipsis truncate whitespace-nowrap">
               {template.name}
             </p>
