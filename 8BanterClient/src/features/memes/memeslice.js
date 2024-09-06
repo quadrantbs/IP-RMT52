@@ -1,65 +1,55 @@
-// src/features/memes/memeSlice.js
-
-import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import serverApi from "../../helpers/baseUrl";
 
-export const fetchMemes = createAsyncThunk(
-  "memes/fetchMemes",
-  async (access_token, thunkAPI) => {
-    try {
-      const response = await serverApi.get("/memes");
-      const memesWithLikes = await Promise.all(
-        response.data.map(async (meme) => {
-          const likeResponse = await serverApi.get(
-            `/memes/${meme.id}/likes/status`,
-            {
-              headers: {
-                Authorization: `Bearer ${access_token}`,
-              },
-            }
-          );
-          return { ...meme, isLiked: likeResponse.data.isLiked };
-        })
-      );
-      return memesWithLikes;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.error);
-    }
-  }
-);
-
-export const toggleLike = createAsyncThunk(
-  "memes/toggleLike",
-  async ({ memeId, isLiked, access_token }, thunkAPI) => {
-    try {
-      if (isLiked) {
-        await serverApi.delete(`/memes/${memeId}/likes`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        });
-      } else {
-        await serverApi.post(
-          `/memes/${memeId}/likes`,
-          {},
+export const fetchMemes = (access_token) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const response = await serverApi.get("/memes");
+    const memesWithLikes = await Promise.all(
+      response.data.map(async (meme) => {
+        const likeResponse = await serverApi.get(
+          `/memes/${meme.id}/likes/status`,
           {
             headers: {
               Authorization: `Bearer ${access_token}`,
             },
           }
         );
-      }
-      thunkAPI.dispatch(updateMemeLikeStatus({ memeId, isLiked: !isLiked }));
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.error);
-    }
+        return { ...meme, isLiked: likeResponse.data.isLiked };
+      })
+    );
+    dispatch(setMemes(memesWithLikes));
+  } catch (error) {
+    dispatch(setError(error.response.data.error));
+  } finally {
+    dispatch(setLoading(false));
   }
-);
+};
 
-export const updateMemeLikeStatus = (payload) => ({
-  type: "memes/updateMemeLikeStatus",
-  payload,
-});
+export const toggleLike = ({ memeId, isLiked, access_token }) => async (dispatch) => {
+  try {
+    if (isLiked) {
+      await serverApi.delete(`/memes/${memeId}/likes`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+    } else {
+      await serverApi.post(
+        `/memes/${memeId}/likes`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+    }
+    dispatch(updateMemeLikeStatus({ memeId, isLiked: !isLiked }));
+  } catch (error) {
+    dispatch(setError(error.response.data.error));
+  }
+};
 
 const memeSlice = createSlice({
   name: "memes",
@@ -69,6 +59,17 @@ const memeSlice = createSlice({
     error: null,
   },
   reducers: {
+    setLoading: (state, action) => {
+      state.status = action.payload ? "loading" : "idle";
+    },
+    setMemes: (state, action) => {
+      state.memes = action.payload;
+      state.status = "succeeded";
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    },
     updateMemeLikeStatus: (state, action) => {
       const { memeId, isLiked } = action.payload;
       const meme = state.memes.find((m) => m.id === memeId);
@@ -78,23 +79,8 @@ const memeSlice = createSlice({
       }
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchMemes.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchMemes.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.memes = action.payload;
-      })
-      .addCase(fetchMemes.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
-      .addCase(toggleLike.rejected, (state, action) => {
-        state.error = action.payload;
-      });
-  },
 });
+
+export const { setLoading, setMemes, setError, updateMemeLikeStatus } = memeSlice.actions;
 
 export default memeSlice.reducer;

@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaHeart, FaRegHeart, FaComments, FaEdit } from "react-icons/fa";
-import {
-  FaFacebookSquare,
-  FaTwitterSquare,
-  FaWhatsappSquare,
-} from "react-icons/fa";
+import { FaFacebookSquare, FaTwitterSquare, FaWhatsappSquare } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
@@ -45,7 +41,7 @@ const AllMemesPage = () => {
   }
 
   if (status === "failed") {
-    return <div>Error: {error}</div>;
+    return <div className="bg-accent p-4 rounded-lg shadow-lg max-w-xl mx-auto">Error: {error}</div>;
   }
 
   return (
@@ -54,7 +50,7 @@ const AllMemesPage = () => {
       {access_token && <Chatbox userId={userId} />}
       <div className="space-y-6">
         {memes.map((meme) => {
-          const shareUrl = window.location.origin + `/memes/${meme.id}`;
+          const shareUrl = `${window.location.origin}/memes/${meme.id}`;
           return (
             <div
               key={meme.id}
@@ -84,18 +80,18 @@ const AllMemesPage = () => {
                 <div className="flex space-x-4">
                   <Link
                     to={`/memes/${meme.id}`}
-                    className="bg-primary text-gray-700 px-4 py-2 rounded-full flex items-center hover:bg-gray-300"
+                    className="bg-primary text-gray-700 sm:px-4 px-2 py-2 rounded-full flex items-center hover:bg-gray-300"
                   >
-                    <FaComments className="mr-2" />
-                    Comments
+                    <FaComments className="" />
+                    <p className="sm:block hidden ml-2">Comments</p>
                   </Link>
                   {userId === meme.userId && (
                     <Link
                       to={`/memes/${meme.id}/edit`}
-                      className="bg-secondary text-blue-700 px-4 py-2 rounded-full flex items-center hover:bg-blue-300"
+                      className="bg-secondary text-blue-700 sm:px-4 px-2 py-2 rounded-full flex items-center hover:bg-blue-300"
                     >
-                      <FaEdit className="mr-2" />
-                      Edit
+                      <FaEdit className="" />
+                      <p className="sm:block hidden ml-2">Edit</p>
                     </Link>
                   )}
                 </div>
