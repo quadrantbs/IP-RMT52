@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import serverApi from "../helpers/baseUrl";
 
 function MemeTemplatesPage() {
   const [allTemplates, setAllTemplates] = useState([]);
@@ -23,7 +23,7 @@ function MemeTemplatesPage() {
 
   const fetchTemplates = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/templates");
+      const response = await serverApi.get("/templates");
       setAllTemplates(response.data);
     } catch (error) {
       console.error("Error fetching templates:", error);
@@ -88,28 +88,27 @@ function MemeTemplatesPage() {
         {templates.map((template) => (
           <div
             key={`${template.id}-${Math.random()}`}
-            className="relative bg-white shadow-md rounded-lg overflow-hidden text-center"
+            className="bg-accent p-4 rounded-lg shadow-lg overflow-hidden"
           >
             <img
               src={template.example.url}
               alt={template.name}
               className="w-full h-48 object-contain rounded-lg"
             />
-            <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 "></div>
-            <p className="p-4 text-gray-700 text-ellipsis truncate whitespace-nowrap">
+            <p className="text-center text-neutral truncate mt-3">
               {template.name}
             </p>
           </div>
         ))}
       </div>
-      <div className="flex justify-center items-center mt-6 space-x-4">
+      <div className="flex justify-center items-center mt-6 space-x-1 sm:space-x-4">
         <button
           onClick={() => goToPage(firstPage)}
           disabled={page === firstPage}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-4 py-2 rounded-md hidden sm:block  ${
             page === firstPage
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-500 text-white"
+              : "bg-neutral text-white"
           }`}
         >
           First
@@ -120,7 +119,7 @@ function MemeTemplatesPage() {
           className={`px-4 py-2 rounded-md ${
             page === firstPage
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-500 text-white"
+              : "bg-neutral text-white"
           }`}
         >
           Previous
@@ -132,10 +131,10 @@ function MemeTemplatesPage() {
                 <button
                   key={pageNumber}
                   onClick={() => goToPage(pageNumber)}
-                  className={`px-4 py-2 rounded-md ${
+                  className={`sm:px-4 px-2 py-2 rounded-md ${
                     page === pageNumber
-                      ? "bg-blue-700 text-white"
-                      : "bg-blue-500 text-white"
+                      ? "bg-accent text-neutral"
+                      : "bg-neutral text-white"
                   }`}
                 >
                   {pageNumber + 1}
@@ -149,10 +148,10 @@ function MemeTemplatesPage() {
               <button
                 key={pageNumber}
                 onClick={() => goToPage(pageNumber)}
-                className={`px-4 py-2 rounded-md ${
+                className={`sm:px-4 px-2 py-2 rounded-md ${
                   page === pageNumber
-                    ? "bg-blue-700 text-white"
-                    : "bg-blue-500 text-white"
+                    ? "bg-accent text-neutral"
+                    : "bg-neutral text-white"
                 }`}
               >
                 {pageNumber + 1}
@@ -164,7 +163,7 @@ function MemeTemplatesPage() {
           className={`px-4 py-2 rounded-md ${
             page === lastPage
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-500 text-white"
+              : "bg-neutral text-white"
           }`}
         >
           Next
@@ -172,10 +171,10 @@ function MemeTemplatesPage() {
         <button
           onClick={() => goToPage(lastPage)}
           disabled={page === lastPage}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-4 py-2 rounded-md hidden sm:block ${
             page === lastPage
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-blue-500 text-white"
+              : "bg-neutral text-white"
           }`}
         >
           Last

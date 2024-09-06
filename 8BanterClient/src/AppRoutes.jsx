@@ -7,8 +7,8 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 // import AllUsersPage from "./pages/AllUsersPage";
 import AllMemesPage from "./pages/AllMemesPage";
-// import MemeDetailPage from "./pages/MemeDetailPage";
-// import MemeTagPage from "./pages/MemeTagPage";
+import MemeDetailPage from "./pages/MemeDetailPage";
+import MemeTagPage from "./pages/MemeTagPage";
 import CreateMemePage from "./pages/CreateMemePage";
 import UpdateMemePage from "./pages/UpdateMemePage";
 // import NotFoundPage from "./pages/NotFoundPage";
@@ -72,14 +72,14 @@ export const AppRoutes = createBrowserRouter([
       //       path: "/users",
       //       element: <AllUsersPage />,
       //     },
-      //     {
-      //       path: "/memes/:id",
-      //       element: <MemeDetailPage />,
-      //     },
-      //     {
-      //       path: "/memes/tag/:tag",
-      //       element: <MemeTagPage />,
-      //     },
+      {
+        path: "/memes/:id",
+        element: <MemeDetailPage />,
+      },
+      {
+        path: "/memes/tag/:tag",
+        element: <MemeTagPage />,
+      },
       {
         path: "/memes/create",
         element: <CreateMemePage />,

@@ -47,7 +47,7 @@ const LoginPage = () => {
   return (
     <div className="container mx-auto p-4">
       <ToastContainer />
-      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+      <div className="max-w-md mx-auto bg-primary p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2" htmlFor="email">
@@ -58,7 +58,7 @@ const LoginPage = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+            className="w-full border border-neutral px-3 py-2 rounded-lg"
             placeholder="Enter your email"
           />
         </div>
@@ -71,13 +71,13 @@ const LoginPage = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+            className="w-full border border-neutral px-3 py-2 rounded-lg"
             placeholder="Enter your password"
           />
         </div>
         <button
           onClick={handleLogin}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full mb-4"
+          className="bg-neutral text-primary px-4 py-2 rounded-lg hover:bg-accent hover:text-neutral w-full mb-4"
         >
           Login
         </button>
@@ -92,7 +92,7 @@ const LoginPage = () => {
             </GoogleOAuthProvider>
           </button>
           <p className="text-sm my-3">Or Register if you have no account yet</p>
-          <button className="bg-white text-blue-500 border border-blue-500 px-4 py-2 rounded-lg hover:bg-blue-500 hover:text-white w-full mb-4">
+          <button className="bg-primary text-neutral border border-neutral px-4 py-2 rounded-lg hover:bg-neutral hover:text-primary w-full mb-4">
             <Link to={"/register"}>Register</Link>
           </button>
         </div>
