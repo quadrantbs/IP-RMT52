@@ -37,7 +37,11 @@ const AllMemesPage = () => {
   };
 
   if (status === "loading") {
-    return <div>Loading memes...</div>;
+    return (
+      <div className="bg-accent p-4 rounded-lg shadow-lg max-w-xl mx-auto">
+        Loading memes...
+      </div>
+    );
   }
 
   if (status === "failed") {
@@ -47,14 +51,14 @@ const AllMemesPage = () => {
   return (
     <div className="container mx-auto p-4">
       <ToastContainer />
-      <Chatbox userId={userId} />
+      {access_token && <Chatbox userId={userId} />}
       <div className="space-y-6">
         {memes.map((meme) => {
-          const shareUrl = window.location.origin + `/memes/${meme.id}`; // URL untuk share
+          const shareUrl = window.location.origin + `/memes/${meme.id}`;
           return (
             <div
               key={meme.id}
-              className="bg-white p-4 rounded-lg shadow-lg max-w-xl mx-auto"
+              className="bg-accent p-4 rounded-lg shadow-lg max-w-xl mx-auto"
             >
               <h2 className="text-2xl font-bold mb-2">{meme.title}</h2>
               <img
@@ -79,8 +83,8 @@ const AllMemesPage = () => {
                 </div>
                 <div className="flex space-x-4">
                   <Link
-                    to={`/memes/${meme.id}/comments`}
-                    className="bg-gray-200 text-gray-700 px-4 py-2 rounded-full flex items-center hover:bg-gray-300"
+                    to={`/memes/${meme.id}`}
+                    className="bg-primary text-gray-700 px-4 py-2 rounded-full flex items-center hover:bg-gray-300"
                   >
                     <FaComments className="mr-2" />
                     Comments
@@ -88,7 +92,7 @@ const AllMemesPage = () => {
                   {userId === meme.userId && (
                     <Link
                       to={`/memes/${meme.id}/edit`}
-                      className="bg-blue-200 text-blue-700 px-4 py-2 rounded-full flex items-center hover:bg-blue-300"
+                      className="bg-secondary text-blue-700 px-4 py-2 rounded-full flex items-center hover:bg-blue-300"
                     >
                       <FaEdit className="mr-2" />
                       Edit
@@ -113,7 +117,7 @@ const AllMemesPage = () => {
                   <Link
                     key={tag.id}
                     to={`/memes/tag/${encodeURIComponent(tag.name)}`}
-                    className="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mr-2 hover:bg-blue-300"
+                    className="bg-neutral text-primary px-3 py-1 rounded-full text-sm font-medium mr-2 hover:bg-blue-300"
                   >
                     {tag.name}
                   </Link>

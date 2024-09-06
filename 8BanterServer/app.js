@@ -10,8 +10,6 @@ const client = new OAuth2Client(
 );
 const { User } = require("./models");
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
-// import OpenAI from "openai";
 const OpenAI = require("openai");
 
 const openai = new OpenAI({

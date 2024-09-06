@@ -66,7 +66,7 @@ const Chatbox = ({ userId }) => {
   return (
     <div className="fixed bottom-4 right-4 w-80">
       {isOpen ? (
-        <div className="bg-white shadow-lg p-4 rounded-lg h-screen flex flex-col">
+        <div className="bg-accent shadow-lg p-4 rounded-lg h-96 flex flex-col">
           <div className="flex-1 overflow-y-auto h-64">
             {messages.map((msg, idx) => (
               <div
@@ -76,7 +76,7 @@ const Chatbox = ({ userId }) => {
                 <span
                   className={`px-3 py-2 rounded-lg inline-block ${
                     msg.sender === "user"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-blue-500 text-accent"
                       : "bg-gray-300 text-black"
                   }`}
                 >
@@ -96,14 +96,14 @@ const Chatbox = ({ userId }) => {
               placeholder="Ask for meme ideas..."
             />
             <button
-              className="bg-red-500 text-white w-full p-3 rounded"
+              className="bg-neutral text-accent w-full p-3 rounded"
               onClick={handleSendMessage}
               disabled={isSending}
             >
               {isSending ? "Sending..." : "Send"}
             </button>
             <button
-              className="mt-2 text-sm text-red-500 w-full text-center"
+              className="mt-2 text-sm text-neutral w-full text-center"
               onClick={() => setIsOpen(false)}
             >
               Close Chat
@@ -112,14 +112,14 @@ const Chatbox = ({ userId }) => {
         </div>
       ) : (
         <div className="flex flex-col items-center">
-          <p className="text-lg text-white my-4 animate-pulse bg-red-500 p-4 rounded-lg">
+          <p className="text-lg text-accent my-4 animate-pulse bg-neutral p-4 rounded-lg hidden md:block mb-16">
             Need meme inspiration? Ask OpenAI here!
           </p>
           <button
-            className="bg-red-500 text-white p-4 rounded-full shadow-lg animate-bounce"
+            className="bg-neutral text-accent p-2 md:p-4 rounded-full shadow-lg animate-bounce fixed bottom-4 right-4"
             onClick={() => setIsOpen(true)}
           >
-            Open Chat
+            OpenAI Chat
           </button>
         </div>
       )}

@@ -38,10 +38,9 @@ const UpdateMemePage = () => {
     fetchMeme();
   }, [id, access_token]);
 
-useEffect(() => {
-  setImageUrl(imageUrl.replace(/\s+/g, "_"));
-}, [imageUrl])
-
+  useEffect(() => {
+    setImageUrl(imageUrl.replace(/\s+/g, "_"));
+  }, [imageUrl]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -66,6 +65,33 @@ useEffect(() => {
     }
   };
 
+  const handleDeleteConfirmation = () => {
+    toast.info(
+      <div>
+        Are you sure you want to delete this meme?
+        <div className="flex space-x-4 mt-2">
+          <button
+            onClick={handleDelete}
+            className="bg-accent text-neutral px-4 py-2 rounded"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss()}
+            className="bg-neutral text-white px-4 py-2 rounded"
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      {
+        position: "top-center",
+        autoClose: false,
+        closeOnClick: false,
+      }
+    );
+  };
+
   const handleDelete = async () => {
     try {
       await serverApi.delete(`/memes/${id}`, {
@@ -73,6 +99,7 @@ useEffect(() => {
           Authorization: `Bearer ${access_token}`,
         },
       });
+      toast.dismiss();
       toast.success("Meme deleted successfully!");
       navigate("/memes");
     } catch (error) {
@@ -88,64 +115,66 @@ useEffect(() => {
     <div className="container mx-auto p-4">
       <ToastContainer />
       <Chatbox userId={userId} />
-      <h1 className="text-2xl font-bold mb-4 text-red-600">Update Meme</h1>
+      <h1 className="text-2xl font-bold mb-4 text-neutral">Update Meme</h1>
       <form onSubmit={handleUpdate}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-neutral text-sm font-bold mb-2">
             Title
           </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value || "_")}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border rounded w-full py-2 px-3 text-neutral leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-neutral text-sm font-bold mb-2">
             Tags
           </label>
           <input
             type="text"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border rounded w-full py-2 px-3 text-neutral leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Comma-separated tags"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-neutral text-sm font-bold mb-2">
             Image URL
           </label>
           <input
             type="text"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border rounded w-full py-2 px-3 text-neutral leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter image URL"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-neutral text-sm font-bold mb-2">
             Image Preview
           </label>
-          <img
-            src={imageUrl}
-            alt="Meme Preview"
-            className="w-80 h-auto object-contain rounded-lg "
-          />
+          <div className="w-64 h-64 object-contain mx-auto flex items-center">
+            <img
+              src={imageUrl}
+              alt="Meme Preview"
+              className="w-80 h-auto object-contain rounded-lg"
+            />
+          </div>
         </div>
         <div className="flex space-x-4">
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-neutral hover:bg-accent text-accent hover:text-neutral font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Update Meme
           </button>
           <button
             type="button"
-            onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={handleDeleteConfirmation}
+            className="bg-primary hover:bg-accent text-neutral font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Delete Meme
           </button>

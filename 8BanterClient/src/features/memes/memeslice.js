@@ -1,6 +1,6 @@
 // src/features/memes/memeSlice.js
 
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import serverApi from "../../helpers/baseUrl";
 
 export const fetchMemes = createAsyncThunk(

@@ -2,7 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/" href="https://api.memegen.link/images/doge.png" />
+    <link
+      rel="icon"
+      type="image/"
+      href="https://api.memegen.link/images/doge.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>8Banter - Make Your Meme</title>
   </head>
@@ -13,5 +17,28 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: "#FAF6F0",
+              },
+              secondary: {
+                DEFAULT: "#F4EAE0",
+              },
+              accent: {
+                DEFAULT: "#F4DFC8",
+              },
+              neutral: {
+                DEFAULT: "#000000",
+              },
+            },
+          },
+        },
+      };
+    </script>
   </body>
 </html>

@@ -29,14 +29,14 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-red-600 text-white p-4">
+    <header className="bg-neutral text-accent p-4">
       <nav className="container mx-auto flex items-center justify-between">
         <h1 className="text-2xl font-bold">
           <Link to="/">8Banter</Link>
         </h1>
 
         <button
-          className="block md:hidden text-white focus:outline-none"
+          className="block md:hidden text-accent focus:outline-none"
           onClick={toggleMenu}
         >
           <svg
@@ -55,47 +55,174 @@ const Navbar = () => {
           </svg>
         </button>
 
-        <div
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } md:flex md:items-center md:space-x-4 md:ml-auto`}
-        >
+        <div className="hidden md:flex md:items-center md:space-x-4 md:ml-auto">
           {isLoggedIn ? (
             <>
-              <span className="block md:inline">Hello, {username}!</span>
-              <Link to="/memes" className="block md:inline hover:text-gray-300">
-                Memes
-              </Link>
-              <Link to="/templates" className="block md:inline hover:text-gray-300">
-                Templates
-              </Link>
-              <Link to="/memes/create" className="block md:inline hover:text-gray-300">
-                Create Meme
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="block md:inline hover:text-gray-300"
-              >
-                Logout
-              </button>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <span className="block md:inline">Hello, {username}!</span>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link
+                  to="/memes"
+                  className="block md:inline"
+                >
+                  Memes
+                </Link>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link
+                  to="/templates"
+                  className="block md:inline"
+                >
+                  Templates
+                </Link>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link
+                  to="/memes/create"
+                  className="block md:inline "
+                >
+                  Create Meme
+                </Link>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <button
+                  onClick={handleLogout}
+                  className="block md:inline "
+                >
+                  Logout
+                </button>
+              </div>
             </>
           ) : (
             <>
-              <Link to="/" className="block md:inline hover:text-gray-300">
-                Home
-              </Link>
-              <Link to="/memes" className="block md:inline hover:text-gray-300">
-                Memes
-              </Link>
-              <Link to="/login" className="block md:inline hover:text-gray-300">
-                Login
-              </Link>
-              <Link to="/register" className="block md:inline hover:text-gray-300">
-                Register
-              </Link>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link to="/" className="block md:inline ">
+                  Home
+                </Link>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link
+                  to="/memes"
+                  className="block md:inline "
+                >
+                  Memes
+                </Link>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link
+                  to="/login"
+                  className="block md:inline "
+                >
+                  Login
+                </Link>
+              </div>
+              <div className="px-4 py-2 hover:bg-primary hover:text-neutral rounded-md">
+                <Link
+                  to="/register"
+                  className="block md:inline "
+                >
+                  Register
+                </Link>
+              </div>
             </>
           )}
         </div>
+
+        {isMenuOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end">
+            <div className="bg-neutral text-accent w-64 h-full p-4">
+              <button
+                className="text-accent focus:outline-none mb-4"
+                onClick={toggleMenu}
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+
+              <div className="flex flex-col space-y-4">
+                {isLoggedIn ? (
+                  <>
+                    <span className="block">Hello, {username}!</span>
+                    <Link
+                      to="/memes"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Memes
+                    </Link>
+                    <Link
+                      to="/templates"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Templates
+                    </Link>
+                    <Link
+                      to="/memes/create"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Create Meme
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        toggleMenu();
+                      }}
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Home
+                    </Link>
+                    <Link
+                      to="/memes"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Memes
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="text-center hover:text-accent bg-secondary text-neutral p-2 rounded-md"
+                      onClick={toggleMenu}
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
     </header>
   );

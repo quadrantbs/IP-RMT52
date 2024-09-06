@@ -131,7 +131,7 @@ const CreateMemePage = () => {
     <div className="container mx-auto p-4">
       <ToastContainer />
       <Chatbox userId={userId} />
-      <h1 className="text-2xl font-bold mb-4 text-red-600">Create a Meme</h1>
+      <h1 className="text-2xl font-bold mb-4 text-neutral">Create a Meme</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -164,13 +164,15 @@ const CreateMemePage = () => {
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Meme Preview
           </label>
-          {selectedTemplate && (
-            <img
-              src={previewUrl}
-              alt="Meme Preview"
-              className="w-80 h-auto object-contain rounded-lg"
-            />
-          )}
+          <div className="w-64 h-64 object-contain mx-auto flex items-center">
+            {selectedTemplate && (
+              <img
+                src={previewUrl}
+                alt="Meme Preview"
+                className="w-80 h-auto object-contain rounded-lg"
+              />
+            )}
+          </div>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -194,13 +196,13 @@ const CreateMemePage = () => {
                 className="flex-shrink-0 p-2 cursor-pointer"
                 onClick={() => handleTemplateSelect(template.id)}
               >
-                <div className="border rounded shadow-lg p-2 flex flex-col items-center">
+                <div className="bg-accent border rounded shadow-lg p-2 flex flex-col items-center">
                   <img
                     src={template.blank}
                     alt={template.name}
                     className={`cursor-pointer ${
                       selectedTemplate === template.id
-                        ? "border-4 border-red-600"
+                        ? "border-4 border-neutral"
                         : ""
                     }`}
                     style={{ maxHeight: "150px", maxWidth: "150px" }}
@@ -244,7 +246,7 @@ const CreateMemePage = () => {
 
         <button
           type="submit"
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-neutral hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Create Meme
         </button>

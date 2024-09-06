@@ -10,19 +10,19 @@ function NotFoundPage() {
       <div className="flex space-x-4">
         <Link
           to="/"
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 bg-neutral text-primary rounded hover:bg-blue-600"
         >
           Home
         </Link>
         <Link
           to="/memes"
-          className="px-4 py-2 bg-red-700 text-white rounded hover:bg-green-600"
+          className="px-4 py-2 bg-neutral text-primary rounded hover:bg-green-600"
         >
           Memes
         </Link>
         <Link
           to="/create-meme"
-          className="px-4 py-2 bg-red-800 text-white rounded hover:bg-red-600"
+          className="px-4 py-2 bg-neutral text-primary rounded hover:bg-neutral"
         >
           Create Meme
         </Link>
