@@ -64,7 +64,7 @@ const Chatbox = ({ userId }) => {
   }, [messages, isOpen]);
 
   return (
-    <div className="fixed bottom-4 right-4 w-80">
+    <div className="z-50 fixed bottom-4 right-4 w-80">
       {isOpen ? (
         <div className="bg-accent shadow-lg p-4 rounded-lg h-96 flex flex-col">
           <div className="flex-1 overflow-y-auto h-64">
